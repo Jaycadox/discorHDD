@@ -69,6 +69,7 @@ impl<T: ChatServiceBridge> DiscordDrive<T> {
 pub struct ChunkManager {
     /// Table which maps chunk indexes to discord messasge ids
     chunk_table: Vec<Option<u64>>,
+    pub save_to_file: bool,
 }
 
 impl ChunkManager {
@@ -84,7 +85,21 @@ impl ChunkManager {
         for _ in 0..new_size {
             chunk_table.push(None);
         }
-        Ok(Self { chunk_table })
+        Ok(Self {
+            chunk_table,
+            save_to_file: true,
+        })
+    }
+
+    pub fn new(size: usize) -> ChunkManager {
+        let mut chunk_table = Vec::with_capacity(size);
+        for _ in 0..size {
+            chunk_table.push(None);
+        }
+        Self {
+            chunk_table,
+            save_to_file: true,
+        }
     }
 
     /// Saves current ChunkManager to file
@@ -216,7 +231,9 @@ impl ChunkManager {
         }
 
         // Save the changes to file
-        self.save_to_file()?;
+        if self.save_to_file {
+            self.save_to_file()?;
+        }
         Ok(())
     }
 }
@@ -224,7 +241,9 @@ impl ChunkManager {
 impl Drop for ChunkManager {
     // Attempt to save the chunk manager when it is dropped
     fn drop(&mut self) {
-        self.save_to_file()
-            .unwrap_or_else(|e| println!("failed to save chunks to disk: {e}"));
+        if self.save_to_file {
+            self.save_to_file()
+                .unwrap_or_else(|e| println!("failed to save chunks to disk: {e}"));
+        }
     }
 }

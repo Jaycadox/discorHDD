@@ -1,10 +1,5 @@
-mod bridge;
-mod config;
-mod discord_drive;
-use crate::bridge::*;
-use crate::config::*;
-use crate::discord_drive::*;
 use anyhow::Result;
+use discorhdd::{bridge::*, config::*, discord_drive::*};
 
 fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
     // Make config

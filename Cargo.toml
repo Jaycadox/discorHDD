@@ -4,9 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "discorhdd_nbdkit"
-path = "src/nbdkit.rs"
-crate-type = ["cdylib"]
+name = "discorhdd"
+crate-type = ["cdylib", "rlib"]
 
 [[bin]]
 name = "discorhdd_thin"

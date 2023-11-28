@@ -1,6 +1,6 @@
 mod bridge;
 mod config;
-mod drive;
+mod discord_drive;
 
 use std::{ops::DerefMut, sync::Arc};
 use tokio::sync::Mutex;
@@ -10,10 +10,10 @@ use nbdkit::*;
 /// DiscordNBDKit drive adapter
 struct DiscordNBD {
     /// A DiscordDrive
-    drive: Arc<Mutex<drive::DiscordDrive<bridge::DiscordBridge>>>,
+    drive: Arc<Mutex<discord_drive::DiscordDrive<bridge::DiscordBridge>>>,
 
     /// A ChunkManager
-    chunk_manager: Arc<Mutex<drive::ChunkManager>>,
+    chunk_manager: Arc<Mutex<discord_drive::ChunkManager>>,
 
     /// An async runtime
     rt: tokio::runtime::Runtime,
@@ -30,11 +30,11 @@ impl Default for DiscordNBD {
 
         // Attempt to create the DiscordDrive from the config
         let drive = rt
-            .block_on(async move { drive::DiscordDrive::new(config).await })
+            .block_on(async move { discord_drive::DiscordDrive::new(config).await })
             .unwrap();
 
         // Create the ChunkManager
-        let chunk_manager = drive::ChunkManager::from_file_or_new(1000).unwrap();
+        let chunk_manager = discord_drive::ChunkManager::from_file_or_new(1000).unwrap();
 
         Self {
             chunk_manager: Arc::new(Mutex::new(chunk_manager)),

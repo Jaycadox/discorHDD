@@ -1,9 +1,9 @@
 mod bridge;
 mod config;
-mod drive;
+mod discord_drive;
 use crate::bridge::*;
 use crate::config::*;
-use crate::drive::*;
+use crate::discord_drive::*;
 use anyhow::Result;
 
 fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {

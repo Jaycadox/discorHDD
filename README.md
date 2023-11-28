@@ -1,5 +1,5 @@
 # discorHDD
-A Network Block Device plugin hosted on Discord.
+A Network Block Device nbdkit plugin that stores the disk on Discord.
 
 Credit to tom7 for the mount and run scripts.
 

@@ -1,8 +1,6 @@
 pub mod bridge;
 pub mod config;
 pub mod discord_drive;
-#[cfg(test)]
-pub mod test_bridge;
 
 use std::{ops::DerefMut, sync::Arc};
 use tokio::sync::Mutex;

@@ -1,7 +1,6 @@
-use discorhdd::{
-    discord_drive,
-    test_bridge::{test_config, TestBridge},
-};
+use discorhdd::discord_drive;
+mod test_bridge;
+use crate::test_bridge::{test_config, TestBridge};
 
 #[test]
 fn main_tests() {

@@ -1,5 +1,5 @@
-use crate::{bridge::ChatServiceBridge, config::Config};
 use anyhow::Result;
+use discorhdd::{bridge::ChatServiceBridge, config::Config};
 use serenity::async_trait;
 
 pub struct TestBridge {

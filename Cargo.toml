@@ -16,7 +16,6 @@ path = "src/main.rs"
 
 [dependencies]
 anyhow = "1.0.75"
-dirs = "5.0.1"
 futures = "0.3.29"
 futures-util = "0.3.29"
 nbdkit = "0.3.0"

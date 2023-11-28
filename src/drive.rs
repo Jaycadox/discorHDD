@@ -8,7 +8,11 @@ use serenity::{
     },
     Client,
 };
-use std::{borrow::Cow, io::Write, sync::Arc};
+use std::{
+    borrow::Cow,
+    io::Write,
+    sync::{atomic::AtomicUsize, Arc},
+};
 use tokio::sync::Mutex;
 
 use crate::config::Config;
@@ -84,10 +88,7 @@ impl DiscordDrive {
             // Copy the ids vector Arc
             let ids2 = ids.clone();
 
-            // TODO: use atomic instead of mutex. Note: is there a better way because this isn't
-            // being mutated?
-            let i = Arc::new(Mutex::new(i));
-
+            let i = AtomicUsize::new(i);
             // Send an empty message containing only the attachment
             self.channel
                 .send_files(&self.http, vec![a], |m| m.content(""))
@@ -96,7 +97,8 @@ impl DiscordDrive {
                     match m {
                         Ok(m) => {
                             // Set index i in the ids vector to the message id of the message
-                            ids2.lock().await[Arc::try_unwrap(i).unwrap().into_inner()] = m.id.0;
+                            ids2.lock().await[i.load(std::sync::atomic::Ordering::Relaxed)] =
+                                m.id.0;
                             Ok(())
                         }
                         Err(e) => Err(e),

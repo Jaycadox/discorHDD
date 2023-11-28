@@ -1,5 +1,7 @@
+mod bridge;
 mod config;
 mod drive;
+use crate::bridge::*;
 use crate::config::*;
 use crate::drive::*;
 use anyhow::Result;
@@ -19,7 +21,7 @@ fn main() -> std::result::Result<(), Box<dyn std::error::Error>> {
 
 async fn async_main(config: Config) -> Result<()> {
     // Create DiscordDrive and ChunkManager
-    let mut drive = DiscordDrive::new(config).await?;
+    let mut drive = DiscordDrive::<DiscordBridge>::new(config).await?;
     let mut chunk_man = ChunkManager::from_file_or_new(100)?;
 
     // Perform test

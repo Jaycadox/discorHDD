@@ -1,3 +1,4 @@
+mod bridge;
 mod config;
 mod drive;
 
@@ -9,7 +10,7 @@ use nbdkit::*;
 /// DiscordNBDKit drive adapter
 struct DiscordNBD {
     /// A DiscordDrive
-    drive: Arc<Mutex<drive::DiscordDrive>>,
+    drive: Arc<Mutex<drive::DiscordDrive<bridge::DiscordBridge>>>,
 
     /// A ChunkManager
     chunk_manager: Arc<Mutex<drive::ChunkManager>>,
